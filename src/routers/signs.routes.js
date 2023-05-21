@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { validateSignUp } from "../middlewares/signUp.middleware.js";
-import { signUpSchema } from "../schemas/signUp.schema.js";
+import { validateSignUp } from "../middlewares/login.middleware.js";
+import { postSignUp } from "../controllers/sign.controllers.js";
 
 const signRouter=Router();
 
-signRouter.post("/signup")
+signRouter.post("/signup",validateSignUp, postSignUp)
 signRouter.post("/signin")
 
 export default signRouter;
