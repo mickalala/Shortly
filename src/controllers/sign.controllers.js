@@ -14,5 +14,12 @@ export async function postSignUp(req, res) {
 }
 
 export async function postLogin(req, res) {
-    const { email, password } = req.body
+
+    try {
+        const { token, existEmail } = res.locals.session
+        db.query(`INSERT INTO sessions(token, "userId") VALUES ($1,$2);`, [token, existEmail[0].id])
+        res.status(200).send(token)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 }
