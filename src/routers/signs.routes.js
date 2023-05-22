@@ -6,6 +6,6 @@ import { postSignUp, postLogin } from "../controllers/sign.controllers.js";
 const signRouter = Router();
 
 signRouter.post("/signup", validateSignUp, postSignUp)
-signRouter.post("/singin", validateLogin, postLogin)
+signRouter.post("/signin", validateLogin, postLogin)
 
 export default signRouter;
