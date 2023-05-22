@@ -16,6 +16,7 @@ export async function tokenValidation(req, res, next) {
         }
 
         res.locals.session = userId
+        console.log(userId)
 
         // const { url } = req.body
 

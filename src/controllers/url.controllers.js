@@ -4,12 +4,14 @@ import { nanoid } from "nanoid"
 export async function returnShortUrl(req, res) {
     try {
         const { url } = req.body
-        const { userId } = res.locals.session
+        const userId = res.locals.session
+        console.log(userId)
         let shortUrl = nanoid(10)
-        const insertUrl = await db.query(`INSERT INTO urls ("shortUrl", url, "userId) 
-        VALUES ($1, $2)`, [shortUrl, url, userId]);
+        console.log(shortUrl, url)
+        const insertUrl = await db.query(`INSERT INTO urls("shortUrl", url, "userId", "visitCount") 
+        VALUES ($1, $2, $3, $4);`, [shortUrl, url, userId, 0]);
 
-        const objecturl = await db.query(`SELECT * urls `)
+        const objecturl = await db.query(`SELECT * FROM urls ;`)
         const returnObject = {
             id: userId,
             url: shortUrl
@@ -52,6 +54,22 @@ export async function deleteUrl(req, res) {
         }
         await db.query(` DELETE  FROM urls WHERE id = $1;`, [id])
         res.sendStatus(204)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
+
+export async function redirectUser(req, res) {
+    try {
+        const { shortUrl } = req.params
+        const urlQuery = await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl])
+        if (urlQuery.rows.length === 0) {
+            res.sendStatus(404)
+        }
+        const { visitCount, id, url } = urlQuery.rows[0]
+        let newVisit = visitCount + 1
+        const renewVisits = dq.query(`UPDATE urls SET visitCount=${newVisit} WHERE id = $1;`, [id])
+        return res.redirect(url)
     } catch (err) {
         res.status(500).send(err.message)
     }
