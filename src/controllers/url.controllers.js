@@ -68,7 +68,7 @@ export async function redirectUser(req, res) {
         }
         const { visitCount, id, url } = urlQuery.rows[0]
         let newVisit = visitCount + 1
-        const renewVisits = dq.query(`UPDATE urls SET visitCount=${newVisit} WHERE id = $1;`, [id])
+        const renewVisits = await dq.query(`UPDATE urls SET visitCount=${newVisit} WHERE id = $1;`, [id])
         return res.redirect(url)
     } catch (err) {
         res.status(500).send(err.message)
