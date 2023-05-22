@@ -20,13 +20,13 @@ export async function tokenValidation(req, res, next) {
 
         // const { url } = req.body
 
-        const urlSchema = joi.object({
-            url: joi.string().required()
-        })
-        const validation = urlSchema.validate(req.body)
-        if (validation.error) {
-            res.status(422).send("Campo de url inválido")
-        }
+        // const urlSchema = joi.object({
+        //     url: joi.string().required()
+        // })
+        // const validation = urlSchema.validate(req.body)
+        // if (validation.error) {
+        //     res.status(422).send("Campo de url inválido")
+        // }
 
         next()
 

@@ -43,7 +43,7 @@ export async function returnAllUrls(req, res) {
 
 export async function deleteUrl(req, res) {
     try {
-        const { userId } = req.locals.session
+        const  userId  = res.locals.session
         const { id } = req.params
         const delUrl = await db.query(`SELECT * FROM urls WHERE id = $1`, [id])
         if (delUrl.rows.length === 0) {
