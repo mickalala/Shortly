@@ -9,7 +9,7 @@ export async function validateSignUp(req, res, next) {
         name: joi.string().required(),
         email: joi.string().email().required(),
         password: joi.string().required(),
-        confirmPassword: joi.string().required()
+        confirmPassword: joi.string(joi.ref('password')).required()
     })
     const validation = signUpSchema.validate(req.body)
     if (validation.error) {
@@ -38,9 +38,9 @@ export async function validateLogin(req, res, next) {
     const { rows: existEmail } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existEmail.length !== 0 && bcrypt.compareSync(password, existEmail[0].password)) {
 
-        const key = process.env.JWT_SECRET;
+
         const config = { expiresIn: 60 * 60 * 24 * 30 };
-        const token = jsonwebtoken.sign({ userId: existEmail[0].id }, key, config);
+        const token = jsonwebtoken.sign({ userId: existEmail[0].id },process.env.JWT_SECRET || 'secret', config);
 
         res.locals.session = { token, existEmail };
         next();
