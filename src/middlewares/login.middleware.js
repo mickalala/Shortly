@@ -9,7 +9,7 @@ export async function validateSignUp(req, res, next) {
         name: joi.string().required(),
         email: joi.string().email().required(),
         password: joi.string().required(),
-        confirmPassword: joi.string(joi.ref('password')).required()
+        confirmPassword: joi.valid(joi.ref('password')).required()
     })
     const validation = signUpSchema.validate(req.body)
     if (validation.error) {
