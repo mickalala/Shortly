@@ -17,7 +17,7 @@ export async function tokenValidation(req, res, next) {
 
         res.locals.session = userId
 
-        const { url } = req.body
+        // const { url } = req.body
 
         const urlSchema = joi.object({
             url: joi.string().required()
