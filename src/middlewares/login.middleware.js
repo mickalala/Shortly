@@ -44,6 +44,6 @@ export async function validateLogin(req, res, next) {
         res.locals.session = { token, existEmail };
         next();
     } else {
-        return res.status(401)
+        return res.status(401).send("email ou senha incorreto!")
     }
 }
