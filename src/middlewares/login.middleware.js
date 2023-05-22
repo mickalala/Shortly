@@ -14,6 +14,7 @@ export async function validateSignUp(req, res, next) {
     const validation = signUpSchema.validate(req.body)
     if (validation.error) {
         res.status(422).send('Campos inválidos!')
+        return
     }
     const { rows: existEmail } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existEmail.length !== 0) {
