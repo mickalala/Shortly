@@ -6,12 +6,11 @@ export async function sendUsersInformations(req, res) {
         const allUrls = await db.query(`SELECT urls.id, urls."shortUrl", urls.url, urls."visitCount" 
         FROM urls WHERE "userId"=$1;`, [userId])
         const allVisits = allUrls.rows.map(i => i.visitCount).reduce((prev, curr) => prev + curr, 0)
-        const queryName = await db.query(`SELECT  users.id, users.name
-         FROM users WHERE id=$1;`[userId])
+        const queryName = await db.query(`SELECT  * FROM users WHERE id=$1;`,[userId])
         console.log(queryName)
         const returnObject = {
             id: userId,
-            name: queryName.name,
+            name: queryName.rows[0].name,
             visitCount: allVisits,
             shortenedUrls: allUrls.rows
         }
