@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.sessions (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    token text NOT NULL
+    token text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -60,7 +61,8 @@ CREATE TABLE public.urls (
     "shortUrl" text NOT NULL,
     url text NOT NULL,
     "“userid”" integer NOT NULL,
-    "“visitcount”" integer DEFAULT 0
+    "“visitcount”" integer DEFAULT 0,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -142,7 +144,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.sessions VALUES (1, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4NDc3NzY1OSwiZXhwIjoxNjg3MzY5NjU5fQ.bSHRPMMTErSdb3rlVPAvd7xn6E4oSNy8B0ctTe_q_ys');
+INSERT INTO public.sessions VALUES (1, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4NDc3NzY1OSwiZXhwIjoxNjg3MzY5NjU5fQ.bSHRPMMTErSdb3rlVPAvd7xn6E4oSNy8B0ctTe_q_ys', '2023-05-22 15:11:01.944431');
 
 
 --
