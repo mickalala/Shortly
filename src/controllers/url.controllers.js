@@ -28,7 +28,7 @@ export async function returnAllUrls(req, res) {
     try {
         const { id } = req.params
         const all_urls = await db.query(`SELECT * fROM urls WHERE id=$1;`, [id])
-        if (all_urls.length === 0) {
+        if (all_urls.rows.length === 0) {
             res.sendStatus(404)
         }
         const { shortUrl, url } = all_urls.rows[0]
@@ -64,13 +64,14 @@ export async function deleteUrl(req, res) {
 export async function redirectUser(req, res) {
     try {
         const { shortUrl } = req.params
+        console.log(shortUrl)
         const urlQuery = await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl])
         if (urlQuery.rows.length === 0) {
             res.sendStatus(404)
         }
         const { visitCount, id, url } = urlQuery.rows[0]
         let newVisit = visitCount + 1
-        const renewVisits = await dq.query(`UPDATE urls SET visitCount=${newVisit} WHERE id = $1;`, [id])
+        const renewVisits = await db.query(`UPDATE urls SET "visitCount"=${newVisit} WHERE id = $1;`, [id])
         return res.redirect(url)
     } catch (err) {
         res.status(500).send(err.message)
