@@ -7,7 +7,7 @@ export async function tokenValidation(req, res, next) {
         const { authorization } = req.headers
         const token = authorization?.replace('Bearer ', '')
 
-        const key = process.env.JWT_SECRET;
+        const key = process.env.JWT_SECRET || 'secret';
         const { userId } = jsonwebtoken.verify(token, key)
         if (!token) {
             res.status(401).send("não veio token")
