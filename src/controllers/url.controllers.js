@@ -16,7 +16,7 @@ export async function returnShortUrl(req, res) {
         const idUrl=objecturl.rows[0].id
         const returnObject = {
             id:idUrl,
-            url: shortUrl
+            shortUrl: shortUrl
         }
         return res.status(201).send(returnObject)
     } catch (err) {
