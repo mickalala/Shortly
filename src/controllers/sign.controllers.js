@@ -18,7 +18,8 @@ export async function postLogin(req, res) {
     try {
         const { token, existEmail } = res.locals.session
         db.query(`INSERT INTO sessions(token, "userId") VALUES ($1,$2);`, [token, existEmail[0].id])
-        res.status(200).send(token)
+        const objectToken={token:token}
+        res.status(200).send(objectToken)
     } catch (err) {
         res.status(500).send(err.message)
     }
