@@ -11,9 +11,11 @@ export async function returnShortUrl(req, res) {
         const insertUrl = await db.query(`INSERT INTO urls("shortUrl", url, "userId", "visitCount") 
         VALUES ($1, $2, $3, $4);`, [shortUrl, url, userId, 0]);
 
-        const objecturl = await db.query(`SELECT * FROM urls ;`)
+        const objecturl = await db.query(`SELECT urls.id FROM urls WHERE "shortUrl"=$1;`,[shortUrl])
+        console.log(objecturl.rows[0].id)
+        const idUrl=objecturl.rows[0].id
         const returnObject = {
-            id: userId,
+            id:idUrl,
             url: shortUrl
         }
         return res.status(201).send(returnObject)
